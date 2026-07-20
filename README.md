@@ -175,6 +175,26 @@ Response:
 | POST | `/predict` | Single application prediction |
 | POST | `/predict_batch` | Batch predictions |
 
+### Understanding the prediction response
+
+```json
+{
+  "score": 0.042,
+  "decision": "approve",
+  "threshold": 0.5
+}
+```
+
+| Field | What it means |
+|-------|---------------|
+| `score` | **Predicted probability of default** — a value between 0 and 1. Here, 0.042 = a 4.2% chance the applicant will fail to repay the loan (and conversely, a 95.8% chance they *will* repay). |
+| `decision` | **Business rule applied to the score** — if `score < threshold`, the application is **`"approve"`**; otherwise **`"reject"`**. The threshold is configurable to match a lender's risk appetite. |
+| `threshold` | **The cutoff used for this decision** (defaults to 0.5, overridable via the `DECISION_THRESHOLD` environment variable). A lower threshold (e.g. 0.2) means fewer defaults but also more rejections; a higher threshold (e.g. 0.7) means more approvals but higher portfolio risk. |
+
+**Example interpretation:** If the API returns `score: 0.042`, the model estimates a **4 out of 100** chance of default. Since 0.042 < 0.5, the system recommends approval. This is a low-risk applicant.
+
+The score alone is more informative than the binary decision — two applicants can both be approved but one may have a score of 0.01 (near-zero risk) and another 0.45 (borderline). The dashboard's risk gauge visualizes this nuance.
+
 Interactive API docs at **[http://localhost:8007/docs](http://localhost:8007/docs)**.
 
 ---
