@@ -108,8 +108,8 @@ Housing_loans_approval/
 ### 1. Clone & install
 
 ```bash
-git clone https://github.com/meddhib/home-loan-default-risk.git
-cd home-loan-default-risk
+git clone https://github.com/Mohamedmagdy21/fair-home-loan-approval.git
+cd fair-home-loan-approval
 pip install -r requirements.txt
 ```
 
